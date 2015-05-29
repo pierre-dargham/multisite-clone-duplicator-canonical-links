@@ -13,25 +13,35 @@
 
 if ( ! function_exists( 'mucd_save_cloned_url' ) ) {
 	function mucd_save_cloned_url( $from_site_id, $to_site_id ) {
-		update_blog_option( $to_site_id, 'mucd_duplicated_siteurl', get_blog_option( $from_site_id, 'siteurl' ) );
+		update_blog_option( $to_site_id, 'mucd_duplicated_site_id', $from_site_id );
 	}
 	add_action( 'mucd_after_copy_data', 'mucd_save_cloned_url', 10, 2 );
+}
+
+if ( ! function_exists( 'mucd_canonical_link_init' ) ) {
+	function mucd_canonical_link_init() {
+
+		$from_site_id = get_option( 'mucd_duplicated_site_id', false );
+
+		if( false !== $from_site_id ) {
+			add_action('wp_head', 'mucd_rel_canonical');
+			remove_action('wp_head', 'rel_canonical');
+		}
+
+	}
+	add_action( 'init', 'mucd_canonical_link_init' );
 }
 
 if ( ! function_exists( 'mucd_rel_canonical' ) ) {
 	function mucd_rel_canonical() {
 
-		$from_site_url = apply_filters( 'mucd_from_site_url', get_option( 'mucd_duplicated_siteurl', '' ) );
+		$from_site_id = get_option( 'mucd_duplicated_site_id', false );
 
-		if ( empty($from_site_url) ) {
-			return;
-		}
+		$from_site_url = apply_filters( 'mucd_from_site_url', get_blog_option( $from_site_id, 'siteurl' ) );
 
 		$current_site_url = apply_filters( 'mucd_current_site_url', get_option( 'siteurl' ) );
 
 		$current_url = apply_filters( 'mucd_get_current_url', mucd_get_current_url() );
-
-		remove_action('wp_head', 'rel_canonical');
 
 		$link = str_replace ( $current_site_url, $from_site_url, $current_url );
 
@@ -42,7 +52,7 @@ if ( ! function_exists( 'mucd_rel_canonical' ) ) {
 		echo "<link rel='canonical' href='$link' />\n";
 
 	}
-	add_action('wp_head', 'mucd_rel_canonical');
+
 }
 
 if ( ! function_exists( 'mucd_get_current_url' ) ) {

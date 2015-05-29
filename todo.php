@@ -29,6 +29,37 @@
 		// [ ] set new custom canonical : __________________
 
 
+// 3. ON EDIT POST ---------------------------------
+
+	// IF CONTENT WITH SAME ID EXISTS ON ORIGINAL SITE PRINT OPTION :
+		// [X] use original site permalink as canonical
+		// [ ] default wordpress canonical
+
+
+// 4. NEW SITE OPTIONS  ---------------------------------
+
+	// HOME PAGE :
+		// [X] use original site home_page as canonical
+		// [ ] default wordpress canonical
+
+	// FOR EACH POST TYPE PRINT OPTION :
+		// [X] use original site permalinks as canonical
+		// [ ] default wordpress canonical
+
+	// FOR EACH ARCHIVES TYPES PRINT OPTION :
+		// [X] use original site permalinks as canonical
+		// [ ] default wordpress canonical
+
+	// FOR EACH TAXONOMY TERM PRINT OPTION :
+		// [X] use original site permalinks as canonical
+		// [ ] default wordpress canonical
+
+	// FOR EACH SPECIFIC CANONICAL DEFINED BY PLUGINS PRINT OPTION :
+		// [X] SAVE seo-yoast / all-in-one-seo canonical
+		// [ ] remove this canonical
+		// [ ] set new custom canonical : __________________
+
+
 function get_home_page_canonical();
 function get_original_home_page_permalink();
 
